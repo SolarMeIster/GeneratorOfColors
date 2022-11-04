@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Generator of colors</string>
+    <string name="generateColor">Сгенерировать</string>
+    <string name="colorExample">#FFFFFFFF</string>
+    <string-array name="listOfVariation">
+        <item>Случайный цвет</item>
+        <item>Свой цвет</item>
+    </string-array>
+</resources>
