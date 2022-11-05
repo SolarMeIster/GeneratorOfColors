@@ -1,9 +1,10 @@
-package ru.solarmeister.generatorofcolors
+package ru.solarmeister.generatorofcolors.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ru.solarmeister.generatorofcolors.databinding.ActivityMainBinding
 import androidx.fragment.app.*
+import ru.solarmeister.generatorofcolors.R
 
 class MainActivity : AppCompatActivity() {
 

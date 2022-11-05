@@ -1,19 +1,16 @@
-package ru.solarmeister.generatorofcolors
+package ru.solarmeister.generatorofcolors.view
 
-import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
-import androidx.transition.Visibility
+import androidx.fragment.app.viewModels
 import ru.solarmeister.generatorofcolors.databinding.FragmentColorsBinding
-import kotlin.random.Random
+import ru.solarmeister.generatorofcolors.viewmodel.ColorViewModel
 
 class ColorFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
 
@@ -22,14 +19,8 @@ class ColorFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
     //варианты действий
     private val variations = arrayOf("Случайный цвет", "Свой цвет")
 
-    //действие SeekBar
-    private var action = Action.RANDOM_COLOR
+    private val colorViewModel: ColorViewModel by viewModels()
 
-    // цвета
-    private var green = 0
-    private var blue = 0
-    private var red = 0
-    private var alpha = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +33,12 @@ class ColorFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val arrayAdapter = ArrayAdapter<Any?>(requireContext(), com.google.android.material.R.layout.support_simple_spinner_dropdown_item, variations)
+        val arrayAdapter = ArrayAdapter<Any?>(
+            requireContext(),
+            com.google.android.material.R.layout.support_simple_spinner_dropdown_item,
+            variations
+        )
+
         with(binding) {
             spinner.adapter = arrayAdapter
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -56,16 +52,14 @@ class ColorFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
                         variations[0] -> {
                             rgbSeekBars.visibility = View.GONE
                             btnColors.visibility = View.VISIBLE
-                            action = Action.RANDOM_COLOR
                         }
                         variations[1] -> {
-                            alphaSeekBar.progress = alpha
-                            greenSeekBar.progress = green
-                            blueSeekBar.progress = blue
-                            redSeekBar.progress = red
+                            alphaSeekBar.progress = colorViewModel.colors.value!!.alpha
+                            redSeekBar.progress = colorViewModel.colors.value!!.red
+                            greenSeekBar.progress = colorViewModel.colors.value!!.green
+                            blueSeekBar.progress = colorViewModel.colors.value!!.blue
                             rgbSeekBars.visibility = View.VISIBLE
                             btnColors.visibility = View.GONE
-                            action = Action.OWN_COLOR
                         }
                     }
                 }
@@ -73,14 +67,10 @@ class ColorFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
-            when (action) {
-                Action.RANDOM_COLOR -> {
-                    binding.btnColors.setOnClickListener {
-                        generateColor()
-                    }
-                }
-                else -> {}
+            binding.btnColors.setOnClickListener {
+                binding.fragmentColors.setBackgroundColor(colorViewModel.generatorColor())
             }
+
             blueSeekBar.setOnSeekBarChangeListener(this@ColorFragment)
             greenSeekBar.setOnSeekBarChangeListener(this@ColorFragment)
             redSeekBar.setOnSeekBarChangeListener(this@ColorFragment)
@@ -88,32 +78,8 @@ class ColorFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
         }
     }
 
-    private fun generateColor() {
-        alpha = Random.nextInt(0,256)
-        red = Random.nextInt(0,256)
-        green = Random.nextInt(0,256)
-        blue = Random.nextInt(0,256)
-        val color = Color.argb(
-            alpha,
-            red,
-            green,
-            blue
-        )
-        binding.fragmentColors.setBackgroundColor(color)
-    }
-
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-        when (seekBar?.id) {
-            R.id.greenSeekBar -> green = progress
-            R.id.blueSeekBar -> blue = progress
-            R.id.redSeekBar -> red = progress
-            R.id.alphaSeekBar -> {
-                alpha = progress
-            }
-        }
-        binding.fragmentColors.setBackgroundColor(Color.argb(
-            alpha, red, green, blue
-        ))
+        binding.fragmentColors.setBackgroundColor(colorViewModel.createOwnColor(seekBar, progress))
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {
