@@ -25,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:max="255"
+            android:min="0"
             android:thumbTint="@color/green"
             android:progressTint="@color/green"/>
 
@@ -35,6 +36,7 @@
             android:layout_marginTop="28dp"
             android:layout_marginBottom="14dp"
             android:max="255"
+            android:min="0"
             android:thumbTint="@color/blue"
             android:progressTint="@color/blue"/>
 
@@ -45,24 +47,29 @@
             android:layout_marginTop="14dp"
             android:layout_marginBottom="28dp"
             android:max="255"
+            android:min="0"
             android:thumbTint="@color/red"
             android:progressTint="@color/red"/>
 
-        <SeekBar
-            android:id="@+id/alphaSeekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="255"
-            android:progress="255"
-            android:thumbTint="@color/white"
-            android:progressTint="@color/white"/>
-
     </LinearLayout>
+
+    <TextView
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:id="@+id/hexText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="#FFFFFFFF"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnColors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#393939"
         android:text="@string/generateColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
