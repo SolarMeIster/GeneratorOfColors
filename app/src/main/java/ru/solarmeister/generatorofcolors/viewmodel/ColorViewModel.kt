@@ -65,6 +65,15 @@ class ColorViewModel : ViewModel() {
         )
     }
 
+    fun getColor(): Int {
+        return Color.argb(
+            255,
+            _colors.value!!.red,
+            _colors.value!!.green,
+            _colors.value!!.blue
+        )
+    }
+
     private fun setColors(red: Int, green: Int, blue: Int, array: Array<String>) {
         _colors.value = Colors(red, green, blue, array)
     }
@@ -72,6 +81,7 @@ class ColorViewModel : ViewModel() {
     private fun setColors(red: Int, green: Int, blue: Int) {
         _colors.value = Colors(red, green, blue)
     }
+
 
 
 }

@@ -35,6 +35,7 @@ class ColorFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val window = activity?.window
         binding.btnColors.setBackgroundColor(Color.parseColor("#393939"))
         val arrayAdapter = ArrayAdapter<Any?>(
             requireContext(),
@@ -43,6 +44,10 @@ class ColorFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
         )
 
         with(binding) {
+            fragmentColors.setBackgroundColor(colorViewModel.getColor())
+            hexText.text = colorViewModel.convertToHex()
+            window?.statusBarColor = colorViewModel.getColor()
+            window?.navigationBarColor = colorViewModel.getColor()
             spinner.adapter = arrayAdapter
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -73,7 +78,6 @@ class ColorFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
 
             binding.btnColors.setOnClickListener {
                 val color = colorViewModel.generatorColor()
-                val window = activity?.window
                 binding.fragmentColors.setBackgroundColor(color)
                 window?.statusBarColor = color
                 window?.navigationBarColor = color
