@@ -17,9 +17,9 @@ class ColorViewModel : ViewModel() {
 
     private val variations: Array<String> = arrayOf("Случайный цвет", "Свой цвет")
 
-    private var red = 0
-    private var green = 0
-    private var blue = 0
+    private var red = 255
+    private var green = 255
+    private var blue = 255
 
     init {
         setColors(red, green, blue, variations)
@@ -38,14 +38,14 @@ class ColorViewModel : ViewModel() {
     }
 
     fun convertToHex(): String {
-        var hexString = red.toString(16)
+        var hexString = "#" + red.toString(16)
         hexString += green.toString(16)
         hexString += blue.toString(16)
         return hexString
     }
 
     fun convertToHex(red: Int, green: Int, blue: Int): String {
-        var hexString = red.toString(16)
+        var hexString = "#" + red.toString(16)
         hexString += green.toString(16)
         hexString += blue.toString(16)
         return hexString

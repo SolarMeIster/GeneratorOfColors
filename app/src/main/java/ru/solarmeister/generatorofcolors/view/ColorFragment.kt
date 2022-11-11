@@ -11,8 +11,8 @@ import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import ru.solarmeister.generatorofcolors.databinding.FragmentColorsBinding
+
 import ru.solarmeister.generatorofcolors.viewmodel.ColorViewModel
 
 class ColorFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
@@ -36,7 +36,6 @@ class ColorFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val window = activity?.window
-        binding.btnColors.setBackgroundColor(Color.parseColor("#393939"))
         val arrayAdapter = ArrayAdapter<Any?>(
             requireContext(),
             com.google.android.material.R.layout.support_simple_spinner_dropdown_item,
